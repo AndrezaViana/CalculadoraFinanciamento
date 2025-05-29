@@ -1,0 +1,103 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculadora de Financiamento</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 20px;
+      background-color: #f5f5f5;
+    }
+    h2 {
+      text-align: center;
+      color: #333;
+    }
+    label {
+      display: block;
+      margin-top: 10px;
+      font-weight: bold;
+      color: #333;
+    }
+    input {
+      width: 100%;
+      padding: 12px;
+      margin-top: 5px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+      box-sizing: border-box;
+    }
+    button {
+      width: 100%;
+      padding: 14px;
+      margin-top: 20px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    .resultado {
+      font-size: 1.2em;
+      margin-top: 25px;
+      background-color: white;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+  </style>
+</head>
+<body>
+  <h2>Calculadora de Financiamento</h2>
+
+  <label>Valor Inicial:</label>
+  <input type="number" id="valorInicial" value="1000">
+
+  <label>Juros:</label>
+  <input type="number" id="juros" value="500">
+
+  <label>% Desconto:</label>
+  <input type="number" id="desconto" value="30">
+
+  <label>Valor da Entrada:</label>
+  <input type="number" id="entrada" value="200">
+
+  <label>Nº de Prestações:</label>
+  <input type="number" id="parcelas" value="12">
+
+  <label>Taxa de Juros Mensal (%):</label>
+  <input type="number" id="taxa" value="1.5">
+
+  <button onclick="calcular()">Calcular</button>
+
+  <div class="resultado" id="resultado"></div>
+
+  <script>
+    function calcular() {
+      const valorInicial = parseFloat(document.getElementById('valorInicial').value);
+      const juros = parseFloat(document.getElementById('juros').value);
+      const desconto = parseFloat(document.getElementById('desconto').value);
+      const entrada = parseFloat(document.getElementById('entrada').value);
+      const parcelas = parseInt(document.getElementById('parcelas').value);
+      const taxaMensal = parseFloat(document.getElementById('taxa').value) / 100;
+
+      const valorComJuros = valorInicial + juros;
+      const valorDesconto = valorComJuros * (desconto / 100);
+      const valorFinanciado = valorComJuros - valorDesconto - entrada;
+
+      const prestacao = (valorFinanciado * taxaMensal) / (1 - Math.pow(1 + taxaMensal, -parcelas));
+
+      document.getElementById('resultado').innerHTML =
+        `<strong>Valor Financiado:</strong> R$ ${valorFinanciado.toFixed(2)}<br>
+         <strong>Valor da Prestação:</strong> R$ ${prestacao.toFixed(2)}`;
+    }
+  </script>
+</body>
+</html>
